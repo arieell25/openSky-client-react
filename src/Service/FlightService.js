@@ -9,6 +9,7 @@ export const flightService = {
   }
   
   function query(filterBy = {}) {
+    console.log(filterBy)
     let queryStr = '?';
     for (const key in filterBy) {
       queryStr += `${key}=${filterBy[key]}&`;

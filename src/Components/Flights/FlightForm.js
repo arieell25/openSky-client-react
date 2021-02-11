@@ -3,22 +3,19 @@ import { useState, useEffect, React} from 'react'
 import {flightService} from '../../Service/FlightService'
 import { withRouter } from 'react-router-dom';
 import {EventBus} from '../../Service/EventBus'
+import { PersonPinCircleRounded } from '@material-ui/icons';
 
 function _FlightForm(props) {
     const [flightObj, setFlightObj]  = useState(null)
-    const [companyName, setCompanyName]  = useState('')
-    const [flight, setFlight]  = useState('')
-    const [rating, setRating]  = useState('')
+    const [price, setPrice]  = useState('')
     const [count, setCount]  = useState(0)
 
     useEffect(() => {
-        if(props.flightId && count===0){
+        if(props.flightNum && count===0){
             const getFlight=(async() =>{
-                const flightById=await flightService.getById(props.flightId)
+                const flightById=await flightService.getById(props.flightNum)
                 setFlightObj(flightById)
-                setCompanyName(flightById.company_name)
-                setRating(flightById.rating)
-                setFlight(flightById.flight)
+                setPrice(flightById.price)
                 setCount(count+1)
             })();
         }
@@ -26,28 +23,27 @@ function _FlightForm(props) {
     const onInputChange=(event) =>{
         let name = event.target.name;
         let value = event.target.value;
-        if (name === 'companyName'){
-            setCompanyName(value)
-        }
-        if (name === 'flight'){
-            setFlight(value)
-        }
-        if (name === 'rating'){
-            setRating(value)
+        if (name === 'price'){
+            setPrice(value)
         }
     }
 
     const onSubmit= async (event) =>{
         event.preventDefault();
         const flightForSave={
-            id:flightObj ? flightObj.id : null,
-            user_id: 25893, //temp id
-            company_name: companyName,
-            flight: flight,
-            rating: rating
+            flight_number:flightObj ? flightObj.flight_number : null,
+            departure_date: flightObj.departure_date,
+            time: flightObj.time,
+            departure_city: flightObj.departure_city,
+            landing_city: flightObj.landing_city,
+            company_name: flightObj.company_name,
+            stops: flightObj.stops,
+            surpriseMe: flightObj.surpriseMe,
+            buyer_id: flightObj.buyer_id,
+            new_price: flightObj.new_price,
+            price: price
         }
         await flightService.save(flightForSave)
-        EventBus.emit('added')
         EventBus.emit('updated')
     }
 
@@ -56,13 +52,7 @@ function _FlightForm(props) {
             <div className="modal-content">
                 <form >
                     <div>
-                    <input error={ true } id="outlined-basic" label="Company Name" name="companyName" variant="outlined" defaultValue={companyName} onChange={onInputChange} />
-                    </div>
-                    <div>
-                    <input error={ true } id="outlined-basic" label="Flight" name="flight" variant="outlined" defaultValue={flight} onChange={onInputChange} />
-                    </div>
-                    <div>
-                    <input error={ true } id="outlined-basic" label="Rating" name="rating" variant="outlined" defaultValue={rating} onChange={onInputChange}/>
+                    <input error={ true } id="outlined-basic" label="Price" name="price" variant="outlined" defaultValue={price} onChange={onInputChange}/>
                     </div>
                     <button onClick={onSubmit}>Save</button>             
                 </form>

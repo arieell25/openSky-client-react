@@ -26,8 +26,8 @@
 .title {
 	text-align: center;
 	position:relative;
-  
 }
+
 h1{
 	color:#440047;
 	/* font-size: 100px; */
@@ -141,3 +141,5 @@ footer {
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   text-align: center;
 }
+
+

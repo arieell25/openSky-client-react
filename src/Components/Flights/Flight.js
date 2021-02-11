@@ -24,10 +24,13 @@ export default function Flight({flight}) {
         setFlightUpdate(true)
       }
 
-      const deleteFlight= async (flightNum) =>{
+    const deleteFlight= async (flightNum) =>{
         await flightService.remove(flightNum)
       }
 
+    const onBuy= () =>{
+        prompt("Do you want to but this flight?")
+    }
     return (
         <tr style={{   marginBottom: "14px"}}>
                     <td>
@@ -63,7 +66,7 @@ export default function Flight({flight}) {
                     <td>🤍</td>
                     {/* <td>💗</td> */}
                     {/* <td><Icon><FavoriteBorderIcon/></Icon></td> */}
-                    <td><Icon><ShoppingCartIcon/></Icon></td>
+                    <td><Icon onClick={onBuy}><ShoppingCartIcon/></Icon></td>
     
             <div className='buttonsfeedbacks'>
             <button onClick={updateFlight}>Update</button>

@@ -9,6 +9,7 @@ export const feedbackService = {
   }
   
   function query(filterBy = {}) {
+    console.log(filterBy); //TODO: DELETE
     let queryStr = '?';
     for (const key in filterBy) {
       queryStr += `${key}=${filterBy[key]}&`;

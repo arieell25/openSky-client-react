@@ -25,7 +25,6 @@ export default {
 }
 
 async function connectApi(endpoint, method = 'get', data = null) {
-
     try {
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,

@@ -1,30 +1,63 @@
-import React, { Component } from 'react';
-// import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
+import * as React from "react"
+import { AppBar, Toolbar, IconButton, List, ListItem, ListItemText } from "@material-ui/core"
+import { Home } from "@material-ui/icons"
+import { makeStyles } from "@material-ui/core"
 
-class NavBar extends Component {
-    render() {
-        return <div>
-        <p>Nav Bar</p>
-            {/* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand href="#home">OpenSky</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto">
-                    <Nav.Link to="/flights">Flight Board</Nav.Link>
-                    <Nav.Link href="#">Surprise Me</Nav.Link>
-                    <Nav.Link href="#">Feedbacks</Nav.Link>
-                    <Nav.Link href="#">My Flights</Nav.Link>
-                    <Nav.Link href="#">My Favr💗its</Nav.Link>
-                    <Nav.Link href="#">Wheather</Nav.Link>
-                    if manager
-                    <NavDropdown title="Statistics" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="#">Flights</NavDropdown.Item>
-                        <NavDropdown.Item href="#">Feedbacks</NavDropdown.Item>
-                    </NavDropdown> 
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar> */}
-        </div>
+const useStyles = makeStyles({
+    MuiAppBarColorPrimary: {
+        backgroundColor: `silver`
+    },
+    navDisplayFlex: {
+        display: `flex`,
+        justifyContent: `space-between`
+    },
+    linkText: {
+        textDecoration: `none`,
+        textTransform: `uppercase`,
+        color: `white`,
+        fontFamily:`cursive`
     }
+});
+
+const navLinks = [
+    { title: `Flights`, path: `/flightsBoard` },
+    { title: `Surprise Me`, path: `/` },
+    { title: `Feedbacks`, path: `/feedbacksBoard` },
+    { title: `My Flights`, path: `/` },
+    { title: `My Favr💗its`, path: `/` },
+    { title: `Wheather`, path: `/` },
+    { title: `Statistics`, path: `/` },
+
+]
+
+const NavBar = () => {
+    const classes = useStyles(); // Add this
+    return (
+        <AppBar position="static" style={{ backgroundColor: `#373a40`}}>
+            <Toolbar>
+                <IconButton edge="start" color="inherit" aria-label="home">
+                    <Home fontSize="large" />
+                </IconButton>
+                {/* Add code */}
+                <List component="nav" aria-labelledby="main navigation">
+                    <List
+                        component="nav"
+                        aria-labelledby="main navigation"
+                        className={classes.navDisplayFlex} // this
+                    >
+                        {navLinks.map(({ title, path }) => (
+                            <a href={path} key={title} className={classes.linkText}>
+                                <ListItem button>
+                                    <ListItemText primary={title} />
+                                </ListItem>
+                            </a>
+                        ))}
+                    </List>
+                </List>
+                {/* Add code end */}
+            </Toolbar>
+        </AppBar>
+    )
 }
-export default NavBar;
+
+export default NavBar

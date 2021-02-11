@@ -22,8 +22,8 @@ export default function Feedback({feedback}) {
 
     return (
         <div className="feedback">
+            <span> {feedback.published_date}</span>
             <span> {feedback.company_name}</span>
-                {/* {feedback.published_id} */}
             <span>{feedback.feedback}</span>
             <span>{feedback.rating}</span>
             <div className='buttonsFeedbacks'>

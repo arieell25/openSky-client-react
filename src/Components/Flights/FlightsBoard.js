@@ -1,35 +1,48 @@
 import { useState, useEffect, React} from 'react'
 import {flightService} from '../../Service/FlightService'
 import Flight from './Flight'
-import {FlightForm} from './FlightForm'
-import {EventBus} from '../../Service/EventBus'
 
 export default function FlightsBoard() {
   const [flights, setFlights] = useState(null)
-  const [flightAdd, setFlightAdd] = useState(false)
+  const [filterByDepartureCity, setDepartureCity] = useState("")
+  const [filterByPrice, setPrice] = useState("")
+  const [filterByLandingCity, setLandingCity] = useState("")
+  const [filterBy, setFilterBy] = useState({})
 
   useEffect(() => {
-    EventBus.on('added', () => {
-      setFlightAdd(false)
-  });
     getFlights()
 })
   const getFlights= async () =>{
-    const data = await flightService.query()
+    const data = await flightService.query(filterBy)
     setFlights(data)
   }
 
-  const addFlight=() =>{
-    setFlightAdd(true)
+  const filterChange=(event) =>{
+    if (event.target.name === "departure_city"){
+      setDepartureCity(event.target.value)
+    }     
+    if (event.target.name === "landing_city"){
+      setLandingCity(event.target.value)
+    } 
+    if (event.target.name === "stops"){
+      setPrice(event.target.value)
+    }
+    const filterObject = {
+      departure_city: event.target.name === "departure_city" ? event.target.value : filterByDepartureCity,
+      landing_city: event.target.name === "landing_city" ? event.target.value : filterByLandingCity,
+      stops: event.target.name === "stops" ? event.target.value : filterByPrice
+    }
+    setFilterBy(filterObject)  
   }
 
   if (!flights || flights.length === 0) return <div>Loading...</div> 
   else{
     return (
       <div className='flightList'>
-      <button onClick={addFlight}>Add</button>
-        {flightAdd && <FlightForm />}
         <div className="main" >
+        <input onChange={filterChange} type="text" name="departure_city" placeholder="Departure City"></input>
+        <input onChange={filterChange} type="text" name="landing_city" placeholder="Landing City"></input>
+        <input onChange={filterChange} type="number" min="0" max="5" name="stops" placeholder="Stops"></input>
                 <table className='table'>
                 <thead>
                     <tr>
